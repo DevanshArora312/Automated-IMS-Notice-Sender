@@ -10,15 +10,24 @@ const send = require("./sendMessage");
 const checkPdfs = require("./checkPdfs");
 const fs = require("fs");
 
-app.listen(process.env.PORT || 1337, async () => {
-    console.log(`webhook is listening at "http://localhost:1337"` );
-    
-    cron.schedule('0 * * * *', async () => {
+app.get("/check-and-send",async (req,res) => {
+    try{
       const finalData = await checkPdfs();
-      console.log(finalData)
+      // console.log(finalData)
       for(let i=0;i<finalData.length;i++){
         await send(finalData[i]);
       }
+      return res.status(200).json({success:true});
+    } catch(err){
+      return res.status(400).json({success : false,message : err.message});
+    }
+})
+
+app.listen(process.env.PORT || 1337, async () => {
+    console.log(`webhook running` );
+    
+    cron.schedule('0 * * * *', async () => {
+      
     }, {
       scheduled: true,
       timezone: "Asia/Kolkata"
