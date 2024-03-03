@@ -12,6 +12,7 @@ const fs = require("fs");
 
 app.get("/check-and-send",async (req,res) => {
     try{
+      console.log("here")
       const finalData = await checkPdfs();
       // console.log(finalData)
       for(let i=0;i<finalData.length;i++){
