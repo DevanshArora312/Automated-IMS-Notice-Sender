@@ -3,7 +3,7 @@ const axios = require("axios");
 const fs = require("fs");
 
 const getPdf = async (link) => {
-    // console.log(link)
+    console.log("link:",link)
     if (link.includes("google")) return link;
     
     let config = {

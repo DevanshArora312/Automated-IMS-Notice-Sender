@@ -43,6 +43,7 @@ const main = async (lastNotice) =>{
     },lastNotice); 
     
     await browser.close();
+    console.log(allNotice)
     return allNotice;
 
 }
