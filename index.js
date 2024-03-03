@@ -26,12 +26,12 @@ app.get("/check-and-send",async (req,res) => {
 app.listen(process.env.PORT || 1337, async () => {
     console.log(`webhook running` );
     
-    cron.schedule('0 * * * *', async () => {
+    // cron.schedule('0 * * * *', async () => {
       
-    }, {
-      scheduled: true,
-      timezone: "Asia/Kolkata"
-    });
+    // }, {
+    //   scheduled: true,
+    //   timezone: "Asia/Kolkata"
+    // });
     
 });
 app.use(express.json())
