@@ -9,12 +9,14 @@ const token = process.env.WHATSAPP_TOKEN;
 const send = require("./sendMessage");
 const checkPdfs = require("./checkPdfs");
 const fs = require("fs");
+const cors = require("cors");
 
+app.use(cors());
 app.get("/check-and-send",async (req,res) => {
     try{
       console.log("here")
       const finalData = await checkPdfs();
-      // console.log(finalData)
+      console.log(finalData)
       for(let i=0;i<finalData.length;i++){
         await send(finalData[i]);
       }
