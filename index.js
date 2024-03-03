@@ -13,7 +13,7 @@ const fs = require("fs");
 app.listen(process.env.PORT || 1337, async () => {
     console.log(`webhook is listening at "http://localhost:1337"` );
     
-    setInterval(()=>{
+    setInterval(async ()=>{
         const finalData = await checkPdfs();
       console.log(finalData)
       for(let i=0;i<finalData.length;i++){
