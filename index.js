@@ -13,11 +13,17 @@ const fs = require("fs");
 app.listen(process.env.PORT || 1337, async () => {
     console.log(`webhook is listening at "http://localhost:1337"` );
     
-    const finalData = await checkPdfs();
+    cron.schedule('0 * * * *', async () => {
+      const finalData = await checkPdfs();
       console.log(finalData)
       for(let i=0;i<finalData.length;i++){
         await send(finalData[i]);
       }
+    }, {
+      scheduled: true,
+      timezone: "Asia/Kolkata"
+    });
+    
 });
 app.use(express.json())
 
