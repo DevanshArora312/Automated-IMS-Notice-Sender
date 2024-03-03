@@ -1,4 +1,4 @@
-const puppeteer = require("puppeteer");
+const puppeteer = require("puppeteer-core");
 const axios = require("axios");
 const fs = require("fs");
 
