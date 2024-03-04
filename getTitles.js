@@ -1,8 +1,9 @@
 
 let puppeteer;
-let chrome = {};
-if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
-    chrome = require("chrome-aws-lambda");
+let chromium = {};
+if (!process.env.AWS_LAMBDA_FUNCTION_VERSION) {
+    // chrome = require("chrome-aws-lambda");
+    chromium = require("@sparticuz/chromium")
     puppeteer = require("puppeteer-core");
 } else {
     puppeteer = require("puppeteer");
@@ -10,13 +11,21 @@ if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
 
 const main = async (lastNotice) =>{
     let options = {};
-    if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
-        console.log(await chrome.executablePath)
+    if (!process.env.AWS_LAMBDA_FUNCTION_VERSION) {
+        console.log(await chromium.executablePath)
         options = {
-            args: [...chrome.args, "--hide-scrollbars", "--disable-web-security"],
-            defaultViewport: chrome.defaultViewport,
-            executablePath: await chrome.executablePath,
+            args: [...chromium.args],
+            defaultViewport: chromium.defaultViewport,
+            executablePath: await chromium.executablePath,
             headless: true,
+            ignoreHTTPSErrors: true,
+            args: [
+            "--no-sandbox",
+            "--disable-setuid-sandbox",
+            "--disable-dev-shm-usage",
+            "--single-process",
+            ],
+            ignoreDefaultArgs: ["--disable-extensions"],
             ignoreHTTPSErrors: true,
         };
     }
