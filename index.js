@@ -26,6 +26,10 @@ app.get("/check-and-send",async (req,res) => {
     }
 })
 
+app.get("/",(req,res)=>{
+  return res.status(200).send("The web service is up and running!")
+})
+
 app.listen(process.env.PORT || 1337, async () => {
     console.log(`webhook running` );
     
