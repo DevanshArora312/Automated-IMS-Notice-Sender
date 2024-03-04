@@ -1,6 +1,4 @@
-
 const getTitles = require("./getTitles");
-var lastNotice = require('./config.json')
 const getPdf = require("./getPdf");
 const {lastNoticeModel} = require("./database");
 
