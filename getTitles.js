@@ -3,7 +3,16 @@ const puppeteer = require("puppeteer");
 const main = async (lastNotice) =>{
     try{
         const url = "https://imsnsit.org/imsnsit/notifications.php"
-        const browser = await puppeteer.launch();
+        const browser = await puppeteer.launch({
+            args: [
+                "--no-sandbox",
+                "--disabe-setuid-sandbox"
+            ],
+            executablePath:
+                process.env.NODE_ENV === "production"
+                ? process.env.PUPPETEER_EXECUTABLE_PATH
+                : puppeteer.executablePath(),
+        });
         const page = await browser.newPage();
         await page.goto(url);
         const allNotice = await page.evaluate(async (lastNotice)=>{
