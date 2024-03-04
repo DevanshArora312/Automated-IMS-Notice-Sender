@@ -1,7 +1,7 @@
 
 let puppeteer;
 let chromium = {};
-if (!process.env.AWS_LAMBDA_FUNCTION_VERSION) {
+if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
     // chrome = require("chrome-aws-lambda");
     chromium = require("@sparticuz/chromium")
     puppeteer = require("puppeteer-core");
@@ -11,7 +11,7 @@ if (!process.env.AWS_LAMBDA_FUNCTION_VERSION) {
 
 const main = async (lastNotice) =>{
     let options = {};
-    if (!process.env.AWS_LAMBDA_FUNCTION_VERSION) {
+    if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
         console.log(await chromium.executablePath)
         options = {
             args: [...chromium.args],
