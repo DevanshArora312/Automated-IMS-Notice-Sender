@@ -1,18 +1,30 @@
-const puppeteer = require("puppeteer-core");
-const fs = require("fs");
+
+let puppeteer;
+let chrome = {};
+if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
+    chrome = require("chrome-aws-lambda");
+    puppeteer = require("puppeteer-core");
+} else {
+    puppeteer = require("puppeteer");
+}
+
+let options = {};
+if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
+    async ()=>{
+        options = {
+            args: [...chrome.args, "--hide-scrollbars", "--disable-web-security"],
+            defaultViewport: chrome.defaultViewport,
+            executablePath: await chrome.executablePath,
+            headless: true,
+            ignoreHTTPSErrors: true,
+        };
+    }
+}
+
 
 const main = async (lastNotice) =>{
     const url = "https://imsnsit.org/imsnsit/notifications.php"
-    const browser = await puppeteer.launch({
-        // args: [
-        //     "--disable-setuid-sandbox",
-        //     "--no-sandbox",
-        //     "--single-process",
-        //     "--no-zygote",
-        // ],
-        executablePath :  puppeteer.executablePath(),
-            }
-    );
+    const browser = await puppeteer.launch(options);
     const page = await browser.newPage();
     await page.goto(url);
 
