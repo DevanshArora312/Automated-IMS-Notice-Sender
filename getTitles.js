@@ -22,14 +22,14 @@ const main = async (lastNotice) =>{
             const links2 = Array.from(document.querySelectorAll('form > table > tbody > tr:not([class]) > td > a.list-data-focus')).map(one => one.getAttribute('href'));
             var notices1= [],notices2 = [];
             for(let i =0;i<titles1.length;i++){
-                if(lastNotice[0].one === titles1[i])break;
+                if(lastNotice.one === titles1[i])break;
                 notices1.push({
                     title : titles1[i],
                     link : links1[i]
                 })
             }
             for(let i =0;i<titles2.length;i++){
-                if(lastNotice[0].two === titles2[i])break;
+                if(lastNotice.two === titles2[i])break;
                 notices2.push({
                     title : titles2[i],
                     link : links2[i]
@@ -39,7 +39,7 @@ const main = async (lastNotice) =>{
         },lastNotice); 
         
         await browser.close();
-        console.log(allNotice)
+        // console.log(allNotice)
         return allNotice;
     } catch (err){
         console.log("Titles me err: ",err.message);
