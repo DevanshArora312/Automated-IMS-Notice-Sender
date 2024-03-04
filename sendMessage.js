@@ -32,7 +32,7 @@ const send = async (singleEntry) => {
                                     "type": "document",
                                     "document": {
                                         "link": singleEntry.pdf,
-                                        "filename": "filename"
+                                        "filename": singleEntry.title
                                     }
                                 }
                             ]
@@ -102,7 +102,7 @@ const send = async (singleEntry) => {
                                     "type": "document",
                                     "document": {
                                         "id": resp.data.id,
-                                        "filename": "filename"
+                                        "filename": singleEntry.title
                                     }
                                 }
                             ]

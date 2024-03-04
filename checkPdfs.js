@@ -1,22 +1,19 @@
-
 const getTitles = require("./getTitles");
-var lastNotice = require('./config.json')
 const getPdf = require("./getPdf");
-const fs = require("fs");
+const {lastNoticeModel} = require("./database");
 
 const checkPdfs = async () => {
-    const allNotices = await getTitles(lastNotice);
-    if(allNotices.notices1.length > 0) lastNotice[0].one = allNotices.notices1[0].title;
-    if(allNotices.notices2.length > 0) lastNotice[0].two = allNotices.notices2[0].title; 
-    // try{
-    //   fs.writeFile("config.json",JSON.stringify(lastNotice),err => { 
-    //     if (err) throw err;
-    //     console.log("Done writing");
-    // })
-    // } catch(err){
-    //   console.log("got error here")
-    // }
-    
+    const lastNotice = await lastNoticeModel.find({iid : '1'});
+    // console.log("here2",lastNotice);
+    const allNotices = await getTitles(lastNotice[0]);
+    try{
+      const rep = await lastNoticeModel.findOneAndUpdate({iid : "1"} , {
+        one : allNotices.notices1.length > 0 ? allNotices.notices1[0].title : lastNotice[0].one,
+        two : allNotices.notices2.length > 0 ? allNotices.notices2[0].title : lastNotice[0].two
+      });
+    } catch(err){
+      console.log("error in setting lastNotice data :", err.message);
+    }
     if(allNotices.notices1.length > 0){
       for(let i = 0;i<allNotices.notices1.length;i++){
         const pdf = await getPdf(allNotices.notices1[i].link);

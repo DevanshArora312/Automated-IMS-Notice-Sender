@@ -8,15 +8,15 @@ require("dotenv").config();
 const token = process.env.WHATSAPP_TOKEN;
 const send = require("./sendMessage");
 const checkPdfs = require("./checkPdfs");
-const fs = require("fs");
 const cors = require("cors");
+const {dbConnect } = require("./database");
 
 app.use(cors());
 app.get("/check-and-send",async (req,res) => {
     try{
-      console.log("here")
+      // console.log("here")
       const finalData = await checkPdfs();
-      console.log(finalData)
+      // console.log(finalData)
       for(let i=0;i<finalData.length;i++){
         await send(finalData[i]);
       }
@@ -24,6 +24,10 @@ app.get("/check-and-send",async (req,res) => {
     } catch(err){
       return res.status(400).json({success : false,message : err.message});
     }
+})
+
+app.get("/",(req,res)=>{
+  return res.status(200).send("The web service is up and running!")
 })
 
 app.listen(process.env.PORT || 1337, async () => {
@@ -95,3 +99,5 @@ app.get("/webhook", (req, res) => {
     }
   }
 });
+
+dbConnect();
