@@ -8,9 +8,10 @@ if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
     puppeteer = require("puppeteer");
 }
 
-let options = {};
-if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
-    async ()=>{
+const main = async (lastNotice) =>{
+    let options = {};
+    if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
+        console.log(await chrome.executablePath)
         options = {
             args: [...chrome.args, "--hide-scrollbars", "--disable-web-security"],
             defaultViewport: chrome.defaultViewport,
@@ -19,10 +20,7 @@ if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
             ignoreHTTPSErrors: true,
         };
     }
-}
-
-
-const main = async (lastNotice) =>{
+    
     const url = "https://imsnsit.org/imsnsit/notifications.php"
     const browser = await puppeteer.launch(options);
     const page = await browser.newPage();
